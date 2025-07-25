@@ -7,19 +7,21 @@
 class Solution {
     public String solution(String rsp) {
         
-        String answer = "";
-        char[] arr = rsp.toCharArray(); //1. 문자열을 문자 배열로 만들 것임
+       StringBuilder answer = new StringBuilder();
         
-        for(int i = 0; i < arr.length; i++){
-            if (arr[i] == '2'){
-                answer += "0";
-            } else if (arr[i] == '0'){
-                answer += "5";
-            } else if (arr[i] == '5'){
-                answer += "2";
+      for (int i = 0; i < rsp.length(); i++) {
+            char ch = rsp.charAt(i);
+
+            if (ch == '2') {
+                answer.append('0'); // 이긴 걸 추가
+            } else if (ch == '0') {
+                answer.append('5');
+            } else if (ch == '5') {
+                answer.append('2');
             }
         }
+                return answer.toString(); // StringBuilder를 문자열로 바꿔서 반환
 
-       return answer;
+        }
     }
-}
+
