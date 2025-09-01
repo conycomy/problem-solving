@@ -12,24 +12,28 @@
 - 📌 **총 700문제 풀기**
 - 
   - ✅ 진행률: **138 / 700**
-  <!-- PS:START-BOJ target=400 -->
 <!-- PS:START-BOJ target=400 -->
 - **Baekjoon 목표: 400문제**
   - 진행률: **0 / 400 (0.0%)**
-  - ![Baekjoon Progress](badges/boj.svg)
+  - ![progress](https://progress-bar.dev/0/?scale=400&title=Baekjoon&width=400)
 <!-- PS:END-BOJ -->
 
 <!-- PS:START-PG target=300 -->
 - **Programmers 목표: 300문제**
   - 진행률: **0 / 300 (0.0%)**
-  - ![Programmers Progress](badges/pg.svg)
+  - ![progress](https://progress-bar.dev/0/?scale=300&title=Programmers&width=400)
 <!-- PS:END-PG -->
 
 <!-- PS:START-TOTAL -->
 - **총합 진행률**
   - 진행률: **0 / 700 (0.0%)**
-  - ![Total Progress](badges/total.svg)
+  - ![progress](https://progress-bar.dev/0/?scale=700&title=Total&width=400)
 <!-- PS:END-TOTAL -->
+
+왜 이렇게 팝업 표시 창이 뜨는거지 ?
+그런데 yml 파일을 넣어야해 ? 
+
+프로그래스 바 안 넣어도 되니까, 자동 갱신만 하는거 없나 리드미 안에서 ?
 
 
 - 🧠 **문제풀이 → 기록 → 복습** 습관화
