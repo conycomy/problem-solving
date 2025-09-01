@@ -11,9 +11,23 @@
 
 - 📌 **총 700문제 풀기**
   - ✅ 진행률: **138 / 700**
-  - 📊 진행률 바: ![progress](https://progress-bar.dev/123/?scale=700&title=Progress&width=400)
+  <!-- PS:START-BOJ target=400 -->
+- **Baekjoon 목표: 400문제**
+  - 진행률: **0 / 400 (0.0%)**
+  - ![progress](https://progress-bar.dev/0/?scale=400&title=Baekjoon&width=400)
+<!-- PS:END-BOJ -->
 
-- 📆 **매일 1문제 이상 꾸준히!**
+<!-- PS:START-PG target=300 -->
+- **Programmers 목표: 300문제**
+  - 진행률: **0 / 300 (0.0%)**
+  - ![progress](https://progress-bar.dev/0/?scale=300&title=Programmers&width=400)
+<!-- PS:END-PG -->
+
+<!-- PS:START-TOTAL -->
+- **총합 진행률**
+  - 진행률: **0 / 700 (0.0%)**
+  - ![progress](https://progress-bar.dev/0/?scale=700&title=Total&width=400)
+<!-- PS:END-TOTAL -->
 - 🧠 **문제풀이 → 기록 → 복습** 습관화
 
 ---
