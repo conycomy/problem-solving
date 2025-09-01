@@ -1,0 +1,103 @@
+name: Update PS Progress (numbers only)
+
+on:
+  push:
+    paths:
+      - 'baekjoon/**'
+      - 'programmers/**'
+      - 'README.md'
+      - '.github/workflows/update-progress.yml'
+  schedule:
+    - cron: '0 0 * * *'   # 매일 00:00 UTC (KST 09:00)
+  workflow_dispatch: {}
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Update README markers (BOJ/PG/TOTAL)
+        run: |
+          python - << 'PY'
+          import re
+          from pathlib import Path
+          from glob import glob
+
+          repo = Path('.').resolve()
+          readme = repo/'README.md'
+          text = readme.read_text(encoding='utf-8')
+
+          def count(patterns):
+              return sum(len(glob(p, recursive=True)) for p in patterns)
+
+          # 🔧 필요하면 확장자/경로 추가
+          boj = count(['baekjoon/**/*.java','baekjoon/**/*.kt','baekjoon/**/*.py','baekjoon/**/*.cpp'])
+          pg  = count(['programmers/**/*.java','programmers/**/*.kt','programmers/**/*.py','programmers/**/*.cpp'])
+
+          def parse_target(tag, default):
+              m = re.search(rf'<!--\\s*{tag}\\s*target=(\\d+)\\s*-->', text)
+              return int(m.group(1)) if m else default
+
+          boj_target = parse_target('PS:START-BOJ', 400)
+          pg_target  = parse_target('PS:START-PG', 300)
+
+          total = boj + pg
+          total_target = boj_target + pg_target
+
+          def block_numbers(name, solved, target, start_tag, end_tag):
+              pct = (solved/target*100) if target>0 else 0.0
+              return (
+                f'<!-- {start_tag} target={target} -->\n'
+                f'- **{name} 목표: {target}문제**\n'
+                f'  - 진행률: **{solved} / {target} ({pct:.1f}%)**\n'
+                f'<!-- {end_tag} -->'
+              )
+
+          def block_total(solved, target):
+              pct = (solved/target*100) if target>0 else 0.0
+              return (
+                f'<!-- PS:START-TOTAL -->\n'
+                f'- **총합 진행률**\n'
+                f'  - 진행률: **{solved} / {target} ({pct:.1f}%)**\n'
+                f'<!-- PS:END-TOTAL -->'
+              )
+
+          new_boj = block_numbers('Baekjoon', boj, boj_target, 'PS:START-BOJ', 'PS:END-BOJ')
+          new_pg  = block_numbers('Programmers', pg, pg_target, 'PS:START-PG', 'PS:END-PG')
+          new_total = block_total(total, total_target)
+
+          def replace_between(start_tag, end_tag, new_block, s):
+              return re.sub(rf'<!--\\s*{start_tag}.*?{end_tag}\\s*-->', new_block, s, flags=re.DOTALL)
+
+          out = text
+          out = replace_between('PS:START-BOJ','PS:END-BOJ',new_boj,out)
+          out = replace_between('PS:START-PG','PS:END-PG',new_pg,out)
+          out = replace_between('PS:START-TOTAL','PS:END-TOTAL',new_total,out)
+
+          if out != text:
+              readme.write_text(out, encoding='utf-8')
+              print(f'Updated: BOJ={boj}/{boj_target}, PG={pg}/{pg_target}, TOTAL={total}/{total_target}')
+          else:
+              print('No changes.')
+          PY
+
+      - name: Commit & Push changes
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "chore: auto-update PS numbers (BOJ/PG/TOTAL)"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
