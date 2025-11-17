@@ -18,7 +18,7 @@ public class Main {
             
         }
 
-        for(int i = 0; i < M; i++){
+        for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
                 if(coin[i][j] == true) {
                     System.out.print("1 ");
