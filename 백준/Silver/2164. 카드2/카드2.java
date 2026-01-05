@@ -1,32 +1,73 @@
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Scanner;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-    
-        Scanner scan = new Scanner(System.in);
-        Deque<Integer> dq = new LinkedList<>();
-        int cardN = scan.nextInt();
-     
-        for(int i = 1; i <= cardN; i++) {
-            dq.addLast(i); 
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        String line = br.readLine();
+        StringTokenizer st = new StringTokenizer(line);
+        int num = Integer.parseInt(st.nextToken());
+
+        MyDeque mydeque = new MyDeque(num*2);
+
+        for(int i = 1; i <= num; i++) {
+            mydeque.pushBack(i);
         }
 
-        while(dq.size() > 1) { 
-            
-            dq.removeFirst(); 
-
-            int movedCard = dq.removeFirst();
-            dq.addLast(movedCard);      
+        while(mydeque.size() > 1){
+            mydeque.popFront();
+            int temp = mydeque.popFront();
+            mydeque.pushBack(temp);
         }
 
-       
-        if (!dq.isEmpty()) {
-            System.out.println(dq.poll());
-        }
-        
-        scan.close();
+        System.out.print(mydeque.peek());
+
     }
+}
+
+
+class MyDeque {
+    int[] arr;
+    private int front;
+    private int rear;
+
+    public MyDeque(int value) {
+        this.arr = new int[value];
+        this.front = 0;
+        this.rear = 0;
+    }
+
+    public void pushBack(int num) {
+        arr[rear++] = num;
+    }
+
+    public int popFront() {
+        if(front == rear) {
+            return -1;
+        } return arr[front++];
+
+    }
+
+    public int size(){
+        return rear - front;
+    }
+
+    public boolean isEmpty(){
+        return front == rear;
+    }
+
+    public int peek() {
+        if(isEmpty()) {
+            return -1;
+        }
+        return arr[front];
+    }
+
+
 }
