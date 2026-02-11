@@ -3,7 +3,7 @@ public class Main {
 
     public static int sum(int d) {
         
-        if(d % 10 == 0){
+        if(d == 0){
             return 0;
         }
 
